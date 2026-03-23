@@ -14,4 +14,4 @@ EXPOSE 8000
 CMD ["nginx", "-g", "daemon off;", "-c", "/etc/nginx/nginx.conf"]
 
 # Update nginx config to listen on 0.0.0.0:8000
-RUN sed -i 's/listen       80;/listen 0.0.0.0:8000;/g' /etc/nginx/conf.d/default.conf
+RUN sed -i 's/listen *80;/listen 0.0.0.0:8000;/g' /etc/nginx/conf.d/default.conf
