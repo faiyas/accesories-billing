@@ -7,11 +7,11 @@ RUN rm -rf /usr/share/nginx/html/*
 # Copy static site files to nginx web root
 COPY . /usr/share/nginx/html
 
-# Expose port 8000
+# Expose port 8000 explicitly
 EXPOSE 8000
 
-# Run nginx on port 8000 instead of default 80
-CMD ["nginx", "-g", "daemon off;", "-c", "/etc/nginx/nginx.conf"]
+# Completely override the default.conf with our own guaranteed 8000 setup
+RUN echo "server { listen 0.0.0.0:8000; root /usr/share/nginx/html; index index.html; }" > /etc/nginx/conf.d/default.conf
 
-# Update nginx config to listen on 0.0.0.0:8000
-RUN sed -i 's/listen *80;/listen 0.0.0.0:8000;/g' /etc/nginx/conf.d/default.conf
+# Start NGINX
+CMD ["nginx", "-g", "daemon off;"]
